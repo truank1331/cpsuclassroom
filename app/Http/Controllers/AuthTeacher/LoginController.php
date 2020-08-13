@@ -52,7 +52,7 @@ class LoginController extends Controller
             // If login succesful, then redirect to their intended location
             return redirect()->intended(route('teacher.home'));
         }
-
+        
         // If Unsuccessful, then redirect back to the login with the form data
         return redirect()->back()->withInput($request->only('username', 'remember'));
     }
