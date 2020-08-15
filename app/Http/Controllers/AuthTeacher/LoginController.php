@@ -5,6 +5,8 @@ namespace App\Http\Controllers\AuthTeacher;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
@@ -39,17 +41,18 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $this->validate($request, [
-            'username' => 'required',
+            'username' => 'required|min:2',
             'password' => 'required|min:4'
         ]);
         $credential = [
             'username' => $request->username,
             'password' => $request->password
         ];
-
         // Attempt to log the user in
+        //dd(Auth::guard('teacher')->attempt($credential));
         if (Auth::guard('teacher')->attempt($credential, $request->member)){
             // If login succesful, then redirect to their intended location
+
             return redirect()->intended(route('teacher.home'));
         }
         
